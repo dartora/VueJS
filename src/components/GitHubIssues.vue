@@ -71,7 +71,7 @@
           </td>
         </tr>
         <!-- <template v-if="!loader.getIssue"> -->
-        <div v-if="showIssues">
+        <!-- <div v-if="showIssues"> -->
           <tr v-for="issue in issues" :key="issue.number">
             <td>
               <router-link
@@ -94,7 +94,7 @@
 
             <td>{{ issue.title }}</td>
           </tr>
-        </div>
+        <!-- </div> -->
         <!-- </template> -->
 
         <tr v-if="noIssues">
