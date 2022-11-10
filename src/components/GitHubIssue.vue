@@ -8,19 +8,18 @@
 
         <div v-if="!loader.getIssue && issue.number">
           <h1>Issue #{{ issue.number }}</h1>-->
-          <h2>{{ issue.title }}</h2>
-          <div>{{ issue.body }}</div>
-          <a href="javascript:history.go(-1)" class="btn btn-primary">Voltar</a>
-        </div>
+      <h2>{{ issue.title }}</h2>
+      <div>{{ issue.body }}</div>
+      <a href="javascript:history.go(-1)" class="btn btn-primary">Voltar</a>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  name: 'GitHubIssue',
+  name: "GitHubIssue",
   created() {
     this.getIssue();
   },

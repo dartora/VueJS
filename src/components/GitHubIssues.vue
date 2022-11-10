@@ -71,28 +71,30 @@
           </td>
         </tr>
         <!-- <template v-if="!loader.getIssue"> -->
-        <tr v-if="showIssues" v-for="issue in issues" :key="issue.number">
-          <td>
-            <router-link
-              :to="{
-                name: 'GitHubIssue',
-                params: {
-                  name: username,
-                  repo: repository,
-                  issue: issue.number
-                }
-              }"
-            >
-              {{ issue.number }}
-              <!-- <a @click.prevent.stop="getIssue(issue)">
+        <div v-if="showIssues">
+          <tr v-for="issue in issues" :key="issue.number">
+            <td>
+              <router-link
+                :to="{
+                  name: 'GitHubIssue',
+                  params: {
+                    name: username,
+                    repo: repository,
+                    issue: issue.number,
+                  },
+                }"
+              >
+                {{ issue.number }}
+                <!-- <a @click.prevent.stop="getIssue(issue)">
                   {{ issue.number }}
                 </a> -->
-            </router-link>
-            <!-- <img v-if="issue.is_loading" src="/static/loading.svg" alt="" /> -->
-          </td>
+              </router-link>
+              <!-- <img v-if="issue.is_loading" src="/static/loading.svg" alt="" /> -->
+            </td>
 
-          <td>{{ issue.title }}</td>
-        </tr>
+            <td>{{ issue.title }}</td>
+          </tr>
+        </div>
         <!-- </template> -->
 
         <tr v-if="noIssues">
@@ -104,22 +106,22 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  name: 'GitHubIssues',
+  name: "GitHubIssues",
   created() {
     this.getLocalData();
   },
   data() {
     return {
-      username: '',
-      repository: '',
+      username: "",
+      repository: "",
       issues: [],
       selectedIssue: {},
       response: {
-        status: '',
-        message: '',
+        status: "",
+        message: "",
       },
       loader: {
         getIssues: false,
@@ -137,24 +139,24 @@ export default {
   },
   methods: {
     reset() {
-      this.username = '';
-      this.repository = '';
-      localStorage.removeItem('gitHubIssues');
+      this.username = "";
+      this.repository = "";
+      localStorage.removeItem("gitHubIssues");
     },
     resetResponse() {
-      this.response.status = '';
-      this.response.message = '';
+      this.response.status = "";
+      this.response.message = "";
     },
     getIssues() {
       this.resetResponse();
       this.issues = [];
       if (this.username && this.repository) {
         localStorage.setItem(
-          'gitHubIssues',
+          "gitHubIssues",
           JSON.stringify({
             username: this.username,
             repository: this.repository,
-          }),
+          })
         );
         this.loader.getIssues = true;
         const url = `https://api.github.com/repos/${this.username}/${this.repository}/issues`;
@@ -166,8 +168,8 @@ export default {
           .catch((error) => {
             // eslint-disable-next-line
             console.log(error.response.data);
-            this.response.status = 'error';
-            this.response.message = 'Repositório não existe!';
+            this.response.status = "error";
+            this.response.message = "Repositório não existe!";
           })
           .finally(() => {
             this.loader.getIssues = false;
@@ -177,7 +179,7 @@ export default {
     getIssue(issue) {
       if (this.username && this.repository) {
         // this.loader.getIssue = true;
-        this.$set(issue, 'is_loading', true);
+        this.$set(issue, "is_loading", true);
         const url = `https://api.github.com/repos/${this.username}/${this.repository}/issues/${issue.number}`;
         axios
           .get(url)
@@ -185,13 +187,13 @@ export default {
             this.selectedIssue = response.data;
           })
           .finally(() => {
-            this.$set(issue, 'is_loading', false);
+            this.$set(issue, "is_loading", false);
           });
       }
     },
 
     getLocalData() {
-      const localData = JSON.parse(localStorage.getItem('gitHubIssues'));
+      const localData = JSON.parse(localStorage.getItem("gitHubIssues"));
       if (localData && localData.username && localData.repository) {
         this.username = localData.username;
         this.repository = localData.repository;
